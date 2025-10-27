@@ -1,9 +1,20 @@
+import { ValidationPipe, ConsoleLogger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule,{
+    logger: new ConsoleLogger({
+      prefix: 'NEST API',
+      json: false,
+    }),
+  });
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true, // Remove properties not defined in the DTO
+    transform: true, // Automatically transform plain objects to DTO instances
+    forbidNonWhitelisted: true, // Throw an error if non-whitelisted properties are present
+  }));
   // Use DocumentBuilder to create a new Swagger document configuration
   const config = new DocumentBuilder()
     .setTitle('Recipes API') // Set the title of the API

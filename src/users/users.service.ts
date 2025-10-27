@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Logger, Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { Users } from './interface/user.interface';
 import { PrismaService } from 'src/prisma/prisma.service';
+// import { PrismaService } from 'src/prisma/prisma.service';
 // import { User, Prisma } from '../generated/prisma';
 
     
@@ -30,10 +31,21 @@ export class UsersService {
     });
   }
 
-  // async createUser(data: { name: string; email: string }) {
-  //   return this.prisma.user.create({data});
-  // }
+  async createUser(data: { name: string; email: string, password:string }) {
+    try{
+      return this.prisma.user.create({data});
+    } catch (error) {
+      // ERROR LOG
+    }
+  }
         
+  async findByEmail(email: string): Promise<Users | undefined | null> {
+    return this.prisma.user.findUnique({
+      where: { 
+        email: email
+      }
+    })
+  }
         
         
 }

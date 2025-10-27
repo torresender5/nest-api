@@ -13,8 +13,8 @@ services:
     volumes:
       - .:/api # Vincula el directorio local con /app en el contenedor (ideal para desarrollo)
       - node:/api/node_modules # Evita sobrescribir los node_modules del contenedor con los del host
-    env_file:
-      - .env
+    # env_file:
+    #   - .env
     environment:
       FILE:
       DATABASE_URL: ${DATABASE_URL}
