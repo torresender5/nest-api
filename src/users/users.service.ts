@@ -1,16 +1,17 @@
-import { Logger, Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { Users } from './interface/user.interface';
 import { PrismaService } from 'src/prisma/prisma.service';
-// import { PrismaService } from 'src/prisma/prisma.service';
-// import { User, Prisma } from '../generated/prisma';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import { Logger } from 'winston';
 
     
 @Injectable()
 export class UsersService {
-    constructor(private prisma: PrismaService) {}
+    constructor(@Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger, private prisma: PrismaService) {}
 
   async findAllUsers() {
+    this.logger.info('Starting findAllUsers function')
     return this.prisma.user.findMany();
   }
 

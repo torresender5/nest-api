@@ -1,14 +1,17 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post, Inject } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateLoginDto, RegisterDto } from './dto/auth.dto';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import { Logger } from 'winston';
 
 @Controller('auth')
 export class AuthController {
-    constructor(private authService: AuthService) {}
+    constructor(private authService: AuthService, @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger) {}
 
     @HttpCode(HttpStatus.OK)
     @Post('login')
     signIn(@Body() signInDto: CreateLoginDto) {
+        this.logger.info('Starting signIn function')
         return this.authService.signIn(signInDto.email, signInDto.password);
     }
 

@@ -6,3 +6,8 @@ export interface Users {
     // createdAt DateTime @default(now())
 
 }
+
+export interface User {
+  email: string;
+  name: string;
+}

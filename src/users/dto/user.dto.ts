@@ -2,20 +2,8 @@ import { ApiProperty, ApiSchema } from '@nestjs/swagger';
 import { IsString, IsOptional, IsEmail} from 'class-validator';
 
 
-@ApiSchema({ name: 'Login' })
-export class CreateLoginDto {
-    @ApiProperty({ description: 'Email' })
-    @IsEmail()
-    email: string;
-
-    @ApiProperty({ description: 'Password' })
-    @IsString()
-    password: string;
-}
-
-
-@ApiSchema({ name: 'Auth' })
-export class RegisterDto {
+@ApiSchema({ name: 'Register' })
+export class UserCreateDto {
     @ApiProperty({ description: 'Email' })
     @IsEmail()
     email: string;
