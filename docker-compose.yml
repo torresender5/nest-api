@@ -4,7 +4,7 @@ services:
   nest_api:
     build:
       context: .
-      dockerfile: DOckerfile
+      dockerfile: Dockerfile
       # Para producción, puedes cambiar a una etapa de producción si tienes un Dockerfile multietapa
       # target: production
     image: nest_api

@@ -18,6 +18,13 @@ async function bootstrap() {
     transform: true, // Automatically transform plain objects to DTO instances
     forbidNonWhitelisted: true, // Throw an error if non-whitelisted properties are present
   }));
+  app.enableCors({
+    origin: 'http://localhost:5173', // Specify the exact origin of your frontend
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS', // Allowed HTTP methods
+    credentials: true, // Allow sending cookies and authorization headers
+  });
+
+  // await app.listen(3000); // Or
   // Use DocumentBuilder to create a new Swagger document configuration
   const config = new DocumentBuilder()
     .setTitle('API') // Set the title of the API

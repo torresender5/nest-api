@@ -1,15 +1,18 @@
-import { Injectable, UnauthorizedException, BadRequestException} from '@nestjs/common';
+import { Injectable, UnauthorizedException, BadRequestException, Inject} from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcryptjs';
 import { MailService } from '../email/mail.service';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import { Logger } from 'winston';
 
 @Injectable()
 export class AuthService {
     constructor(
         private usersService: UsersService,
         private jwtService: JwtService,
-        private mailService: MailService) {}
+        private mailService: MailService,
+        @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger) {}
     // private readonly logger = new Logger(UsersController.name);
     
     
@@ -33,8 +36,8 @@ export class AuthService {
         if (!isValid) {
             throw new UnauthorizedException();
         }
-        const payload = { sub: user.id, name: user.name, email: user.email };
-        console.log(payload)
+        const payload = { sub: user.id, name: user.user, email: user.email };
+        this.logger.debug(payload)
         await this.mailService.sendUserConfirmation(user, 'Hola')
         
         return {
@@ -45,7 +48,9 @@ export class AuthService {
 
     async register(data:any ){
         try{
-            data.password = await this.hashPassword(data.password)
+            this.logger.debug(data)
+            data['password'] = await this.hashPassword(data.password)
+            this.logger.debug(data)
             const user = await this.usersService.createUser(data)
         } catch (error){
 
@@ -53,7 +58,6 @@ export class AuthService {
                 cause: new Error(),
                 description: 'Error trying to create a user',
             });
-        }
-    }
-
-}
+        };
+    };
+};

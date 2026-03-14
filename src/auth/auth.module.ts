@@ -13,7 +13,7 @@ import { MailModule } from 'src/email/mail.module';
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '1000s' },
+      signOptions: { expiresIn: '1D' },
     }),
   ],
   providers: [AuthService],

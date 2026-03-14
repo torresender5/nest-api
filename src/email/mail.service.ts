@@ -24,7 +24,6 @@ export class MailService {
   async sendEmail(email: string, subject: string, templatePath: string, context: object) {
     // const url = `example.com/auth/confirm?token=${token}`;
 
-
     await this.mailerService.sendMail({
       to: email,
       // from: '"Support Team" <support@example.com>', // override default from

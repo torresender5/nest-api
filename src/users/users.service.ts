@@ -8,7 +8,7 @@ import { Logger } from 'winston';
     
 @Injectable()
 export class UsersService {
-    constructor(@Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger, private prisma: PrismaService) {}
+  constructor(@Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger, private prisma: PrismaService) {}
 
   async findAllUsers() {
     this.logger.info('Starting findAllUsers function')
@@ -32,7 +32,7 @@ export class UsersService {
     });
   }
 
-  async createUser(data: { name: string; email: string, password:string }) {
+  async createUser(data: { user: string; email: string, password:string }) {
     try{
       return this.prisma.user.create({data});
     } catch (error) {
@@ -44,6 +44,14 @@ export class UsersService {
     return this.prisma.user.findUnique({
       where: { 
         email: email
+      }
+    })
+  }
+
+  async findById(id: number): Promise<Users | undefined | null> {
+    return this.prisma.user.findUnique({
+      where: { 
+        id: id
       }
     })
   }

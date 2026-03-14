@@ -14,7 +14,7 @@ export class EmailController {
     // @UseGuards(AuthGuard)
     @Post('send')
     sendEmail(@Body() data: SendEmailDto){
-        this.logger.info('Starting UsersController find all')
+        this.logger.info('Starting EmailController sendEmail')
         let context = JSON.parse(data.context)
         this.mailService.sendEmail(data.email, data.subject, data.templatePath, context)
         // this.logger.log('Starting UsersController find all')

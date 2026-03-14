@@ -26,5 +26,5 @@ export class RegisterDto {
 
     @ApiProperty({ description: 'Name' })
     @IsString()
-    name: string;
+    user: string;
 }
